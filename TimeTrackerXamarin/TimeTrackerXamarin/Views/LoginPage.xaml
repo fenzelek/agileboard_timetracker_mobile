@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="TimeTrackerXamarin.Views.LoginPage"
+             xmlns:t="clr-namespace:TimeTrackerXamarin.Services"
+             xmlns:i18N="clr-namespace:TimeTrackerXamarin.i18n;assembly=TimeTrackerXamarin"
+             xmlns:effects="clr-namespace:TimeTrackerXamarin.Effects;assembly=TimeTrackerXamarin"
+             BackgroundColor="{DynamicResource AppColor}"
+             NavigationPage.HasNavigationBar="False"
+             Title="TimeTracker">
+    <StackLayout HorizontalOptions="CenterAndExpand">
+        <Label Text="" FontSize="25" HorizontalOptions="Center" Padding="50" />
+        <FlexLayout HorizontalOptions="CenterAndExpand" AlignItems="Center" JustifyContent="Center">
+            <Image Source="timetrackertree.png" HeightRequest="50" WidthRequest="50" Margin="5" />
+            <Label Text="TimeTracker" FontSize="25" TextColor="{DynamicResource LogoColor}" FontAttributes="Bold" />
+        </FlexLayout>
+        <Frame HorizontalOptions="Center" WidthRequest="300" Margin="10" HasShadow="False" Padding="30,20" BorderColor="{DynamicResource SecondaryTextColor}"
+               BackgroundColor="{DynamicResource SurfaceColor}" CornerRadius="6">
+            <Grid>
+                <StackLayout>
+                    <Frame Margin="0,5" Padding="5" BackgroundColor="Transparent"
+                           HasShadow="False" CornerRadius="6" BorderColor="{DynamicResource SecondaryTextColor}">
+                        <Entry PlaceholderColor="{DynamicResource SecondaryTextColor}"
+                               TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Email}"
+                               Placeholder="{i18N:Text views.loginpage.email}" Keyboard="Email" HeightRequest="{OnPlatform iOS='30'}">
+                            <Entry.Effects>
+                                <effects:PlainEntry />
+                            </Entry.Effects>
+                        </Entry>
+                    </Frame>
+                    <Frame Margin="0,5" Padding="5" BackgroundColor="Transparent"
+                           HasShadow="False" CornerRadius="6" BorderColor="{DynamicResource SecondaryTextColor}">
+                        <Grid ColumnDefinitions="*,30">
+                            <Entry PlaceholderColor="{DynamicResource SecondaryTextColor}"
+                                   TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding Password}"
+                                   Placeholder="{i18N:Text views.loginpage.password}" HeightRequest="{OnPlatform iOS='30'}"
+                                   IsPassword="{Binding IsPasswordHidden}">
+                                <Entry.Effects>
+                                    <effects:PlainEntry />
+                                </Entry.Effects>
+                            </Entry>
+                            <ImageButton Grid.Column="1" BackgroundColor="Transparent"
+                                         Command="{Binding TogglePasswordVisibleCommand}" Padding="5">
+                                <ImageButton.Source>
+                                    <FontImageSource Glyph="{Binding PasswordGlyph}" FontFamily="FAsolid"
+                                                     Color="{DynamicResource PrimaryTextColor}" />
+                                </ImageButton.Source>
+                            </ImageButton>
+                        </Grid>
+                    </Frame>
+
+                    <Button Text="{i18N:Text views.loginpage.forgot-password}" HorizontalOptions="End"
+                            TextColor="{DynamicResource PrimaryTextColor}" Background="Transparent"
+                            TextTransform="None" Command="{Binding RedirectCommand}"
+                            CommandParameter="/guest/forgot-password" />
+
+                    <Button IsVisible="{Binding IsBusy, Converter={StaticResource reverseConverter}}"
+                            HorizontalOptions="FillAndExpand" Padding="10, 5" Text="{i18N:Text views.loginpage.login}"
+                            TextColor="{DynamicResource SecondaryTextColor}" BackgroundColor="Transparent"
+                            BorderColor="{DynamicResource SecondaryTextColor}" CornerRadius="6" BorderWidth="1"
+                            TextTransform="None" Margin="0,10" Command="{Binding LoginCommand}" />
+
+                    <FlexLayout AlignItems="Center" JustifyContent="Center">
+                        <Label Text="{i18N:Text views.loginpage.no-account}"
+                               TextColor="{DynamicResource SecondaryTextColor}" Margin="0" />
+                        <Button Text="{i18N:Text views.loginpage.create-account}" Background="Transparent"
+                                TextTransform="None" Padding="0" TextColor="{DynamicResource AppColor}"
+                                Margin="3, 0, 0, 0" Command="{Binding RedirectCommand}"
+                                CommandParameter="/guest/register" />
+                    </FlexLayout>
+                </StackLayout>
+                <StackLayout BackgroundColor="{DynamicResource SurfaceColor}" VerticalOptions="FillAndExpand"
+                             IsVisible="{Binding IsBusy}">
+                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                        <ActivityIndicator IsRunning="True" />
+                        <Label TextColor="{DynamicResource PrimaryTextColor}"
+                               Text="{i18N:Text views.loginpage.checking-login}" />
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+        </Frame>
+        <StackLayout VerticalOptions="EndAndExpand" Padding="10">
+            <Label Text="{Binding Version}" FontSize="15" HorizontalTextAlignment="Center" />
+            <Label Text="DEV" TextColor="OrangeRed" FontSize="22" HorizontalTextAlignment="Center"
+                   IsVisible="{Binding IsDebug}" />
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>

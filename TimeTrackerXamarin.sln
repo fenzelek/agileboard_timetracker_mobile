@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackerXamarin", "TimeTrackerXamarin\TimeTrackerXamarin\TimeTrackerXamarin.csproj", "{5F454108-AB97-49FF-8D01-9A7724086156}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackerXamarin.Android", "TimeTrackerXamarin\TimeTrackerXamarin.Android\TimeTrackerXamarin.Android.csproj", "{A9F4BABE-5DBB-4FF8-9EE3-1C109A5AAE0E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackerXamarin.Test", "TimeTrackerXamarin\TimeTrackerXamarin.Test\TimeTrackerXamarin.Test.csproj", "{B02D12EA-FF42-4F92-82D5-D3FE86C83E3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackerXamarin.iOS", "TimeTrackerXamarin\TimeTrackerXamarin.iOS\TimeTrackerXamarin.iOS.csproj", "{355ECCEE-8E68-499B-948C-0D2C1FE7856F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F454108-AB97-49FF-8D01-9A7724086156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F454108-AB97-49FF-8D01-9A7724086156}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F454108-AB97-49FF-8D01-9A7724086156}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F454108-AB97-49FF-8D01-9A7724086156}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F4BABE-5DBB-4FF8-9EE3-1C109A5AAE0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F4BABE-5DBB-4FF8-9EE3-1C109A5AAE0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F4BABE-5DBB-4FF8-9EE3-1C109A5AAE0E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A9F4BABE-5DBB-4FF8-9EE3-1C109A5AAE0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F4BABE-5DBB-4FF8-9EE3-1C109A5AAE0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F4BABE-5DBB-4FF8-9EE3-1C109A5AAE0E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B02D12EA-FF42-4F92-82D5-D3FE86C83E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B02D12EA-FF42-4F92-82D5-D3FE86C83E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B02D12EA-FF42-4F92-82D5-D3FE86C83E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B02D12EA-FF42-4F92-82D5-D3FE86C83E3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{355ECCEE-8E68-499B-948C-0D2C1FE7856F}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{355ECCEE-8E68-499B-948C-0D2C1FE7856F}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{355ECCEE-8E68-499B-948C-0D2C1FE7856F}.Debug|Any CPU.Deploy.0 = Debug|iPhoneSimulator
+		{355ECCEE-8E68-499B-948C-0D2C1FE7856F}.Release|Any CPU.ActiveCfg = Release|iPhone
+		{355ECCEE-8E68-499B-948C-0D2C1FE7856F}.Release|Any CPU.Build.0 = Release|iPhone
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8EB22393-8C97-47B9-92A9-5E74B45A3EAF}
+	EndGlobalSection
+EndGlobal

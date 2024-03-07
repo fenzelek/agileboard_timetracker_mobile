@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:html="clr-namespace:LabelHtml.Forms.Plugin.Abstractions;assembly=HtmlLabel.Forms.Plugin"                          
+             x:Class="TimeTrackerXamarin.Views.TaskList"
+             xmlns:i18n="clr-namespace:TimeTrackerXamarin.i18n;assembly=TimeTrackerXamarin"
+             Title="{i18n:Text views.tasklist.title}"
+             BackgroundColor="{DynamicResource BackgroundColor}"
+             x:Name="TaskPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{prism:NavigateTo 'UserSettings'}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource Glyph="&#xf013;" Size="20" FontFamily="FAsolid"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Frame">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal"/>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="Gray"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource MainBlue}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <StackLayout Padding="0" Spacing="0">
+        <!-- Current tracking frame -->
+        <Frame CornerRadius="0" BackgroundColor="{DynamicResource AppColor}" Padding="15,10" Margin="0" HorizontalOptions="CenterAndExpand" VerticalOptions="Start">
+            <Grid ColumnDefinitions="*,AUTO" RowDefinitions="50">
+                <StackLayout VerticalOptions="Center" Grid.Column="0" IsVisible="{Binding IsTracking,Converter={StaticResource reverseConverter}}">
+                    <Label TextColor="{DynamicResource AppColorText}" Text="{i18n:Text views.tasklist.total-time}" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout VerticalOptions="Center" Grid.Column="0" IsVisible="{Binding IsTracking}" Spacing="0">
+                    <Label Text="{i18n:Text views.tasklist.trackactual}" TextColor="{DynamicResource AppColorText}" FontAttributes="Bold"/>
+                    <Label Text="{Binding CurrentTaskTracking.name}"  TextColor="{DynamicResource AppColorText}" MaxLines="1" LineBreakMode="TailTruncation"/>
+                </StackLayout>
+                <StackLayout VerticalOptions="Center" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString />
+                        </Label.FormattedText>
+                    </Label>
+                    <Label FontSize="13" Text="{Binding TicketTime, StringFormat='{0}', Converter={StaticResource timeToString}}" IsVisible="{Binding IsTracking}" HorizontalOptions="End" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="{DynamicResource AppColorText}"/>
+                    <Label FontSize="13" Text="/" IsVisible="{Binding IsTracking}" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" VerticalTextAlignment="Center" TextColor="{DynamicResource AppColorText}"/>
+                    <Label FontSize="22" Text="{Binding TotalTime,Converter={StaticResource timeToString}, ConverterParameter=false}" HorizontalOptions="End" VerticalOptions="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="{DynamicResource AppColorText}"/>
+                </StackLayout>
+            </Grid>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GetCurrentDetailsCommand}" CommandParameter="{Binding CurrentTaskTracking.id, StringFormat='{0}'}"/>
+            </Frame.GestureRecognizers>
+        </Frame>
+        <StackLayout>
+            <Grid>
+                <CollectionView Grid.RowSpan="2" x:Name="TaskListCollection" ItemsSource="{Binding ListTask}"  Margin="5,0" 
+                                ItemsUpdatingScrollMode="KeepScrollOffset"
+                                SelectionMode="None">
+                    <CollectionView.SelectedItem>
+                        <OnPlatform x:TypeArguments="BindingBase">
+                            <On Platform="Android" Value="{Binding CurrentTask, Mode=OneWay}" />
+                            <On Platform="iOS" Value="{Binding CurrentTask, Mode=OneWay}" />
+                        </OnPlatform>
+                    </CollectionView.SelectedItem>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Span="1" VerticalItemSpacing="5" Orientation="Vertical"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="{DynamicResource ItemListColor}" Padding="10" CornerRadius="6" HasShadow="False" xct:TouchEffect.LongPressCommand="{Binding Source={x:Reference TaskPage}, Path=BindingContext.GetTicketDetailsCommand}" xct:TouchEffect.LongPressCommandParameter="{Binding id, StringFormat='{0}'}">
+                                <Grid RowDefinitions="50" Padding="0">
+                                    <!--Current track overlay-->
+                                    <Grid Margin="{OnPlatform iOS='-10', Default='-20'}" BackgroundColor="{StaticResource MainBlue}" Opacity="0.3" IsVisible="{Binding CurrentlyTracking}"/>
+                                    <!--Selected task overlay-->
+                                    <Grid Margin="{OnPlatform iOS='-10', Default='-20'}" BackgroundColor="{DynamicResource SelectedColor}" Opacity="0.3" IsVisible="{Binding Selected}"/>
+                                    <Grid ColumnDefinitions="AUTO,*">
+                                        <Label FontSize="18" VerticalTextAlignment="Center" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding title}" MaxLines="1" Grid.Column="0"/>
+                                        <Label FontSize="16" VerticalTextAlignment="Center" TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding name}" MaxLines="2" LineBreakMode="TailTruncation" Grid.Column="1"/>
+                                    </Grid>
+                                </Grid>
+                                <!-- Double click to start tracking -->
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding Source={x:Reference TaskPage}, Path=BindingContext.QuickTrackCommand}" CommandParameter="{Binding id}"/>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference TaskPage}, Path=BindingContext.IOSSelectedCommand}" CommandParameter="{Binding id}"></TapGestureRecognizer>                                    
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Footer>
+                        <FlexLayout Padding="0,20,0,120" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" JustifyContent="Center">
+                            <Label TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding FooterText}"/>
+                            <Image Margin="5,0">
+                                <Image.Source>
+                                    <FontImageSource Glyph="&#xf119;" FontFamily="FAsolid" Color="{DynamicResource SecondaryTextColor}" Size="20"/>
+                                </Image.Source>
+                            </Image>
+                        </FlexLayout>
+                    </CollectionView.Footer>
+                    <CollectionView.Header>
+                        <FlexLayout IsVisible="{Binding IsTaskListEmpty, Converter={StaticResource reverseConverter}}" Padding="{OnPlatform Default='0,55,0,0',iOS='0,55,0,10'}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" JustifyContent="Center">
+                            <Label Text="{i18n:Text views.tasklist.holdtip}" FontAttributes="Italic" FontSize="10" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand" TextColor="{DynamicResource SecondaryTextColor}"/>
+                        </FlexLayout>
+                    </CollectionView.Header>
+                </CollectionView>
+                <!-- filters -->
+                <Grid ColumnDefinitions="40,5*,5*" RowDefinitions="40" VerticalOptions="Start" Padding="5" BackgroundColor="{DynamicResource TransparentBackground}">
+                    <Picker x:Name="UserPicker" SelectedIndexChanged="UserPicker_SelectedIndexChanged" IsVisible="False" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedUser}" ItemDisplayBinding="{Binding .,Converter={StaticResource userFullName}}"/>
+                    <ImageButton IsVisible="True" CornerRadius="6" WidthRequest="40" BackgroundColor="{DynamicResource AppColor}" Command="{Binding SortToggleCommand}" Padding="10" >
+                        <ImageButton.Source>
+                            <FontImageSource Glyph="{Binding SortIcon}" Color="{DynamicResource AppColorText}" FontFamily="FAsolid" Size="50"/>
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <FlexLayout Grid.Column="1">
+                        <Button CornerRadius="6" Padding="{OnPlatform iOS='10,5', Default='5, 10'}" x:Name="UserBtn" Text="{i18n:Text views.tasklist.assigned }" TextColor="{DynamicResource AppColorText}" TextTransform="None" BackgroundColor="{StaticResource MainBlue}" Clicked="UserClicked" Grid.Column="1"/>
+                        <Button IsVisible="False" WidthRequest="30" Text="X" TextColor="Red" x:Name="clearPickerBtn" BackgroundColor="Transparent" Padding="0" Margin="5" Grid.Column="1" HorizontalOptions="End" Clicked="ClearPicker"/>
+                    </FlexLayout>
+                    <Frame HasShadow="{OnPlatform iOS=false,Default=true}" Grid.Column="2" CornerRadius="6" Padding="10,0" BackgroundColor="{DynamicResource InputBackgroundColor}">
+                        <Entry PlaceholderColor="{DynamicResource SecondaryTextColor}" ClearButtonVisibility="WhileEditing" BackgroundColor="{DynamicResource InputBackgroundColor}" Placeholder="{i18n:Text views.tasklist.search}" FontSize="15" Text="{Binding SearchText}"/>
+                    </Frame>
+                </Grid>
+                <Frame IsVisible="{Binding IsBusy}" CornerRadius="100" BackgroundColor="{DynamicResource BackgroundColor}" HorizontalOptions="Center" VerticalOptions="Center" Padding="5" WidthRequest="50" HeightRequest="50">
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource MainBlue}"/>
+                </Frame>
+                <!--tracking control -->
+                <Grid Grid.RowSpan="2" BackgroundColor="{DynamicResource TransparentBackground}" VerticalOptions="End" HorizontalOptions="Fill" ColumnDefinitions="*,75,*" RowDefinitions="75" Padding="0,15" IsVisible="{Binding isBusy, Converter={x:StaticResource reverseConverter}}">
+                    <Button 
+                        Grid.Column="1"
+                        x:Name="StopBtn"
+                        FontFamily="FAsolid" 
+                        Text="&#xf04d;" 
+                        TextColor="White" 
+                        FontSize="30"
+                        Padding="{OnPlatform iOS='20,0'}"
+                        IsVisible="{Binding IsTracking}"                                         
+                        CornerRadius="{OnPlatform iOS='38', Default='38'}"
+                        WidthRequest="76" 
+                        HeightRequest="76"                      
+                        Background="{StaticResource MainBlue}"
+                        Command="{Binding TrackCommand}" 
+                        CommandParameter="stop"/>
+                    <Button
+                        Padding="{OnPlatform iOS='20,0'}"
+                        Grid.Column="1"
+                        x:Name="PlayBtn"
+                        FontFamily="FAsolid" 
+                        Text="&#xf04b;" 
+                        TextColor="White" 
+                        FontSize="30" 
+                        IsVisible="{Binding IsTracking, Converter={x:StaticResource reverseConverter}}"
+                        CornerRadius="{OnPlatform iOS='38', Default='38'}"
+                        WidthRequest="76" 
+                        HeightRequest="76"  
+                        Background="{StaticResource MainBlue}" 
+                        Command="{Binding TrackCommand}"
+                        CommandParameter="start"/>
+                    <Frame CornerRadius="{OnPlatform iOS='38', Default='38'}" WidthRequest="76" HeightRequest="76" HasShadow="{OnPlatform iOS=false,Default=true}" Grid.Column="1" Padding="10" IsVisible="{Binding IsButtonChanging}" BackgroundColor="{StaticResource MainBlue}">
+                        <ActivityIndicator IsRunning="True" Color="White"/>
+                    </Frame>
+                    <Button
+                       
+                        Grid.Column="2"
+                        CornerRadius="6"
+                        BackgroundColor="{StaticResource MainBlue}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"
+                        WidthRequest="100"
+                        Margin="10,0,0,0"
+                        Text="{i18n:Text views.tasklist.createtask}"
+                        TextTransform="None"
+                        TextColor="White"
+                        Command="{prism:NavigateTo 'TaskCreate'}"
+                        Padding="{OnPlatform iOS='5,10', Default='10, 5'}"
+                        >
+                        <Button.CommandParameter>
+                            <prism:NavigationParameter Key="project_id" Value="{Binding CurrentProjectID}" />
+                        </Button.CommandParameter>
+                    </Button>
+                    <Button
+                        Grid.Column="0"
+                        CornerRadius="6"
+                        BackgroundColor="{StaticResource MainBlue}"
+                        VerticalOptions="Center"
+                        Margin="0,0,10,0"
+                        HorizontalOptions="End"
+                        Text="{i18n:Text views.tasklist.trackhistory}"
+                        TextTransform="None"
+                        TextColor="White"
+                        Padding="{OnPlatform iOS='5,10', Default='10, 5'}"
+                        Command="{prism:NavigateTo 'TimeSummaryPage'}"
+                        WidthRequest="100"
+                        />
+                </Grid>
+                <Grid Grid.RowSpan="2" BackgroundColor="{DynamicResource TransparentBackground}" IsVisible="{Binding DetailsVisible}" Margin="-10, -70, -10, -10">
+                <Frame HasShadow="{OnPlatform iOS=false,Default=true}" x:Name="DetailsFrame" IsVisible="{Binding DetailsVisible}" Margin="30,30" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="{DynamicResource SurfaceColor}" Padding="0">
+                    <StackLayout>
+                        <Frame HasShadow="{OnPlatform iOS=false,Default=true}" BackgroundColor="{DynamicResource SurfaceHeaderColor}">
+                            <Grid ColumnDefinitions="*,20" Margin="0" ColumnSpacing="10">
+                                <StackLayout>
+                                    <Label Text="{i18n:Text views.tasklist.detailstitle}" TextColor="{DynamicResource PrimaryTextColor}" FontSize="20"/>
+                                    <Label Text="{Binding CurrentTicketDetails.name}" TextColor="{DynamicResource SecondaryTextColor}" FontAttributes="Italic"/>
+                                </StackLayout>
+                                <ImageButton Background="Transparent" BackgroundColor="Transparent" Command="{Binding CloseDetailsCommand}" Grid.Column="1">
+                                    <ImageButton.Source>
+                                        <FontImageSource Glyph="&#xf00d;" Color="{DynamicResource SecondaryTextColor}" FontFamily="FAsolid" Size="20"/>
+                                    </ImageButton.Source>
+                                </ImageButton>
+                            </Grid>
+                            <Frame.GestureRecognizers>
+                                <!-- blank, so it does not trigger closing -->
+                                <TapGestureRecognizer></TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <ScrollView HeightRequest="350" VerticalScrollBarVisibility="Always">
+                            <StackLayout>
+                                <FlexLayout JustifyContent="SpaceBetween" Padding="20,5">
+                                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18n:Text views.tasklist.task}"/>
+                                    <Label TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding CurrentTicketDetails.title}"/>
+                                </FlexLayout>
+                                <FlexLayout JustifyContent="SpaceBetween" Padding="20,5">
+                                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18n:Text views.tasklist.sprint}"/>
+                                    <Label TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding CurrentTicketDetails.sprint_name}"/>
+                                </FlexLayout>
+                                <FlexLayout JustifyContent="SpaceBetween" Padding="20,5">
+                                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18n:Text views.tasklist.assignedto}"/>
+                                    <Label TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding CurrentTicketDetails.assigned_user_fullname}"/>
+                                </FlexLayout>
+                                <FlexLayout JustifyContent="SpaceBetween" Padding="20,5">
+                                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18n:Text views.tasklist.reporter}"/>
+                                    <Label TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding CurrentTicketDetails.reporting_user_fullname}"/>
+                                </FlexLayout>
+                                <FlexLayout JustifyContent="SpaceBetween" Padding="20,5">
+                                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18n:Text views.tasklist.estimation}"/>
+                                    <Label TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding CurrentTicketDetails.estimate_time, Converter={StaticResource timeToString},ConverterParameter=false}"/>
+                                </FlexLayout>
+                                <FlexLayout JustifyContent="SpaceBetween" Padding="20,5">
+                                    <StackLayout>
+                                        <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18n:Text views.tasklist.mytime}"/>
+                                        <Label TextColor="{DynamicResource SecondaryTextColor}" Text="..."/>
+                                    </StackLayout>
+                                    <StackLayout>
+                                        <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18n:Text views.tasklist.alltime}"/>
+                                        <Label TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding CurrentTicketDetails.alltime, Converter={StaticResource timeToString}}" HorizontalTextAlignment="End"/>
+                                    </StackLayout>
+                                </FlexLayout>
+                                <StackLayout  Padding="20,5">
+                                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18n:Text views.tasklist.description}"/>
+                                    <html:HtmlLabel Text="{Binding CurrentTicketDetails.description}"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </ScrollView>
+                    </StackLayout>
+                </Frame>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CloseDetailsCommand}"></TapGestureRecognizer>
+                    </Grid.GestureRecognizers>
+                </Grid>
+            </Grid>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

@@ -1,0 +1,160 @@
+{
+    "views": {
+        "companylist": {
+            "title": "Lista firm",
+            "empty-view": "Nie jesteś przypisany do żadnej firmy.",
+            "select": "Wybierz firmę:",
+            "task": {
+                "found": "Znaleziono rozpoczęty task",
+                "continue": "Kontynuuj",
+                "stop": "Zatrzymaj",
+                "discard": "Odrzuć",
+                "sprint":"Sprint: ",
+                "title": "Numer: ",
+                "name": "Nazwa: "
+
+            }
+        },
+        "loginpage": {
+            "email": "E-mail",
+            "password": "Hasło",
+            "forgot-password": "Zapomniałem hasła",
+            "login": "Zaloguj",
+            "no-account": "Nie masz jeszcze konta?",
+            "create-account": "Załóż je tutaj",
+            "checking-login": "Sprawdzanie danych...",
+            "browser-error": "Problem z uruchomieniem przeglądarki.",
+            "cancel": "Anuluj",
+            "welcome": {
+                "first": "Witaj, dobrze Cię widzieć!",
+                "online": "Witaj ponownie, dobrze Cię widzieć",
+                "offline": "Witaj ponownie, jesteś offline."
+            }
+        },
+        "projectslist": {
+            "title": "Lista projektów",
+            "no-assigned": "Brak przypisanych projektów",
+            "current-task": "Aktualny task:",
+            "total-time": "Całkowity czas:",
+            "select-company-again": "Wybierz firmę jeszcze raz.",
+            "history": "Historia",
+            "new-task": "Nowy task",
+            "exit-confirm": {
+                "yes": "Tak",
+                "no": "Nie",
+                "message": "Czy na pewno chcesz wyjść?"
+            }
+        },
+        "taskcreate": {
+            "title": "Nowy task",
+            "sprinttitle": "Wybierz...",
+            "sprint": "Sprint",
+            "name": "Nazwa",
+            "submit": "Potwierdź",
+            "alert": {
+                "offline": "Musisz być podłączony do internetu, aby stworzyć nowy task.",
+                "created": "Task utworzony.",
+                "noprojectid": "ID projektu nie zostało odnalezione."
+            }
+        },
+        "tasklist": {
+            "title": "Lista tasków",
+            "trackactual": "Aktualny task:",
+            "total-time": "Całkowity czas:",
+            "listfull": "Nie ma więcej tasków.",
+            "listempty": "Brak tasków",
+            "assigned": "Przypisany",
+            "search": "Szukaj",
+            "holdtip": "Przytrzymaj task, żeby wyświetlić dodatkowe informacje",
+            "trackhistory": "Historia",
+            "createtask": "Nowy task",
+            "detailstitle": "Szczegóły taska",
+            "task": "Task",
+            "sprint": "Sprint",
+            "assignedto": "Przypisany",
+            "reporter": "Reporter",
+            "estimation": "Estymacja",
+            "mytime": "Mój czas",
+            "alltime": "Cały czas",
+            "description": "Opis",
+            "unassigneduser": "Nieprzypisany",
+            "alert": {
+                "unexpected": "Przepraszamy, coś poszło nie tak.",
+                "unselectedtask": "Najpierw musisz wybrać task."
+            }
+
+        },
+        "timesummary": {
+            "title": "Podsumowanie aktywności",
+            "selectdate": "Wybierz datę",
+            "search": "Szukaj",
+            "empty": "Brak danych",
+            "date": "Data",
+            "time":  "Czas"
+        },
+      "usersettings": {
+        "title": "Preferencje",
+        "account": "Szczegóły konta",
+        "email": "E-mail: ",
+        "name": "Imię: ",
+        "surname": "Nazwisko: ",
+        "logout": "Wyloguj",
+        "settings": "Ustawienia",
+        "language": "Język",
+        "change": "Zmień",
+        "cleandata": "Wyczyść dane lokalne",
+        "clean": "Wyczyść",
+        "none": "Nie wybrano",
+        "company-change": {
+          "cancel": "Anuluj",
+          "confirm": "Zmień i wyczyść",
+          "message": "Zmiana firmy spowoduje wyczyszczenie lokalnych danych.",
+          "title": "Czy jesteś pewien?"
+        },
+        "wipe": {
+          "cancel": "Anuluj",
+          "confirm": "Wyczyść",
+          "message": "Ta akcja spowoduje wyczyszczenie lokalnych danych.",
+          "title": "Czy jesteś pewien?"
+        },
+        "alert": {
+          "okclear": "Dane lokalne usunięte.",
+          "errclear": "Nie można usunąć danych lokalnych.",
+          "languagechanged": "Język został zmieniony."
+        }
+      },
+        "permissionview": {
+            "message": "TimeTracker zbiera dane o lokalizacji, aby umożliwić śledzenie lokalizacji pracowników (wysyłamy lokalizację co 5 minut) nawet wtedy, gdy aplikacja jest zamknięta lub nieużywana",
+            "exmessage": "Musisz kliknąć 'Zawsze zezwalaj'",
+            "button": "Udziel zgody",
+            "alert": "Musisz kliknąć zawsze zezwalaj.",
+            "help": "Jeżeli okienko uprawnień nie wyświetla się, musisz wejsc w ustawienia aplikacji"
+        }
+    },
+    "api": {
+        "general": {
+            "validation_failed": "Podałeś błędne dane.",
+            "request_rate_exceeded": "Próbowałeś wykonać tę akcję zbyt często. Poczekaj minutę i spróbuj ponownie.",
+            "no_action_permission": "Nie masz uprawnień do wykonania tej akcji.",
+            "no_resource_found": "Podałeś błędne dane.",
+            "api_error": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie za chwilę.",
+            "invalid_action_or_method": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie za chwilę.",
+            "database_error": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie za chwilę.",
+            "guest_not_allowed": "Podany e-mail został przypisany do konta gościa. Nie możesz wykonać tej akcji korzystając z tego e-maila."
+        },
+        "auth": {
+            "invalid_login_data": "Podałeś błędne dane",
+            "empty_data": "Email i hasło muszą być wpisane.",
+            "invalid_token": "Token logowanie jest nieprawidłowy."
+        },
+        "cancelledframe": "Odrzucone ramki czasu"
+    },
+    "validation": {
+        "emailorpassword": "E-mail i hasło muszą być wpisane.",
+        "tokennotfound": "Token nie znaleziony"
+    },
+    "internal-error": "Wystąpił wewnętrzny błąd aplikacji.",
+    "reminder-notification": "Hej! Pamiętasz o wyłączeniu trackowania?",
+    "ios-app-terminated": "Hej! Aplikacja nie powinna zostać całkowicie zamknięta podczas trackowania!",
+    "sync": "Synchronizacja danych..."
+}

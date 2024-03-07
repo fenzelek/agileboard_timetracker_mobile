@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:t="clr-namespace:TimeTrackerXamarin.Services"
+             Title="{i18N:Text views.projectslist.title}"             
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:i18N="clr-namespace:TimeTrackerXamarin.i18n;assembly=TimeTrackerXamarin"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="TimeTrackerXamarin.Views.ProjectsList"
+             x:Name="ProjectsListPage"             
+             NavigationPage.HasNavigationBar="True"
+             BackgroundColor="{DynamicResource BackgroundColor}"
+             >
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{prism:NavigateTo 'UserSettings'}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource Glyph="&#xf013;" Size="20" FontFamily="FAsolid" Color="White"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <Grid RowDefinitions="70,*" HorizontalOptions="CenterAndExpand">
+        <!-- Current tracking frame -->
+        <Frame CornerRadius="0" BackgroundColor="{DynamicResource AppColor}" Padding="15,10" Margin="0" VerticalOptions="Start">
+            <Grid ColumnDefinitions="*,AUTO" RowDefinitions="50">
+                <StackLayout VerticalOptions="Center" Grid.Column="0" IsVisible="{Binding IsTracking,Converter={StaticResource reverseConverter}}">
+                    <Label TextColor="{DynamicResource AppColorText}" Text="{i18N:Text views.tasklist.total-time}" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout VerticalOptions="Center" Grid.Column="0" IsVisible="{Binding IsTracking}" Spacing="0">
+                    <Label Text="{i18N:Text views.tasklist.trackactual}" TextColor="{DynamicResource AppColorText}" FontAttributes="Bold"/>
+                    <Label Text="{Binding CurrentTask.name}"  TextColor="{DynamicResource AppColorText}" MaxLines="1" LineBreakMode="TailTruncation"/>
+                </StackLayout>
+                <StackLayout VerticalOptions="Center" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString />
+                        </Label.FormattedText>
+                    </Label>
+                    <Label FontSize="13" Text="{Binding TicketTime, StringFormat='{0}', Converter={StaticResource timeToString}}" IsVisible="{Binding IsTracking}" HorizontalOptions="End" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="{DynamicResource AppColorText}"/>
+                    <Label FontSize="13" Text="/" IsVisible="{Binding IsTracking}" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" VerticalTextAlignment="Center" TextColor="{DynamicResource AppColorText}"/>
+                    <Label FontSize="22" Text="{Binding TotalTime,Converter={StaticResource timeToString}, ConverterParameter=false}" HorizontalOptions="End" VerticalOptions="Center" VerticalTextAlignment="Center" FontAttributes="Bold" TextColor="{DynamicResource AppColorText}"/>
+                </StackLayout>
+            </Grid>
+        </Frame>
+        <CollectionView VerticalScrollBarVisibility="Always" ItemsSource="{Binding ListProject}" Margin="10, 0, 10, 10" Grid.Row="1" SelectionMode="None">
+            <CollectionView.EmptyView>
+                <StackLayout>
+                    <Image>
+                        <Image.Source>
+                            <FontImageSource Glyph="&#xf49e;" FontFamily="FAsolid" Color="{StaticResource MainBlue}" Size="50"/>
+                        </Image.Source>
+                    </Image>
+                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18N:Text views.projectslist.no-assigned}" FontAttributes="Italic" Margin="10" HorizontalOptions="Center"/>
+                </StackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="{DynamicResource ItemListColor}" Padding="10" CornerRadius="6" xct:TouchEffect.NativeAnimation="True" HasShadow="{OnPlatform iOS=false,Default=true}">
+                        <Grid ColumnDefinitions="*,AUTO" RowDefinitions="50">
+                            <Label FontSize="16" VerticalTextAlignment="Center" TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding name}" MaxLines="1"/>
+                            <Label FontSize="18" VerticalTextAlignment="Center" TextColor="{DynamicResource SecondaryTextColor}" HorizontalTextAlignment="End" Text="{Binding summary, Converter={StaticResource timeToString}, ConverterParameter=false}" Grid.Column="1"/>
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer CommandParameter="{Binding id, StringFormat='{0}'}" Command="{Binding Source={x:Reference ProjectsListPage}, Path=BindingContext.ShowTaskListCommand}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.Footer>
+                <Grid Padding="0,0,0,120" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+
+            </CollectionView.Footer>
+        </CollectionView>
+        <Grid BackgroundColor="{DynamicResource TransparentBackground}" Grid.RowSpan="2" VerticalOptions="End" HorizontalOptions="Fill" ColumnDefinitions="*,76,*" RowDefinitions="75" Padding="0,15" IsVisible="{Binding IsBusy, Converter={x:StaticResource reverseConverter}}">
+            <Button 
+                        Grid.Column="1"
+                        x:Name="StopBtn"
+                        FontFamily="FAsolid" 
+                        Text="&#xf04d;" 
+                        TextColor="{DynamicResource AppColorText}"
+                        FontSize="30" 
+                        IsVisible="{Binding IsTracking}"                                         
+                        CornerRadius="{OnPlatform iOS='38', Default='38'}"
+                        WidthRequest="76" 
+                        HeightRequest="76"                     
+                        Background="{DynamicResource AppColor}"
+                        Command="{Binding TrackCommand}"                
+                        CommandParameter="stop"/>
+            <Button
+                        Grid.Column="1"
+                        x:Name="PlayBtn"
+                        FontFamily="FAsolid" 
+                        Text="&#xf04b;"
+                        TextColor="{DynamicResource SecondaryTextColor}"
+                        FontSize="30" 
+                        IsVisible="{Binding IsTracking, Converter={x:StaticResource reverseConverter}}"
+                        CornerRadius="{OnPlatform iOS='38', Default='38'}" 
+                        WidthRequest="76"
+                        HeightRequest="76"                
+                        Background="{DynamicResource SurfaceColor}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        IsEnabled="False">
+            </Button>
+            <Frame HasShadow="{OnPlatform iOS=false, Default=true}" Grid.Column="1" WidthRequest="76" HeightRequest="76" Padding="10" IsVisible="{Binding IsButtonChanging}" CornerRadius="{OnPlatform iOS='38', Default='100'}" BackgroundColor="{StaticResource MainBlue}">
+                <ActivityIndicator IsRunning="True" Color="White"/>
+            </Frame>
+            <Button
+                       
+                        Grid.Column="2"
+                        CornerRadius="6"
+                        BackgroundColor="{DynamicResource SurfaceColor}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start"
+                        WidthRequest="100"
+                        Margin="10,0,0,0"
+                        Text="{i18N:Text views.projectslist.new-task}"
+                        TextTransform="None"
+                        TextColor="{DynamicResource SecondaryTextColor}"
+                        Padding="{OnPlatform iOS='5,10', Default='10, 5'}"
+                        IsEnabled="false"
+                        >
+                <Button.CommandParameter>
+                    <prism:NavigationParameter Key="project_id" Value="{Binding CurrentProjectID}" />
+                </Button.CommandParameter>
+            </Button>
+            <Button
+                        Grid.Column="0"
+                        CornerRadius="6"
+                        BackgroundColor="{DynamicResource AppColor}"
+                        VerticalOptions="Center"
+                        WidthRequest="100"
+                        Padding="{OnPlatform iOS='5,10', Default='10, 5'}"
+                HorizontalOptions="End"
+                Margin="0,0,10,0"
+                        Text="{i18N:Text views.projectslist.history}"
+                        TextTransform="None"
+                        TextColor="{DynamicResource AppColorText}"
+                        Command="{prism:NavigateTo 'TimeSummaryPage'}"
+                        />
+        </Grid>
+        <Grid Grid.RowSpan="2" BackgroundColor="{DynamicResource BackgroundColor}" IsVisible="{Binding IsBusy}">
+            <Frame IsVisible="{Binding IsBusy}" CornerRadius="100" BackgroundColor="{DynamicResource BackgroundColor}" HorizontalOptions="Center" VerticalOptions="Center" Padding="5" WidthRequest="50" HeightRequest="50">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource MainBlue}"/>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

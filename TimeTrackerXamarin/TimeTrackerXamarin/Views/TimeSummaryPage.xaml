@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:prism="http://prismlibrary.com" 
+             xmlns:i18n="clr-namespace:TimeTrackerXamarin.i18n"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="TimeTrackerXamarin.Views.TimeSummaryPage"
+             BackgroundColor="{DynamicResource BackgroundColor}"
+             Title="{i18n:Text views.timesummary.title}">
+    <StackLayout Padding="20" BackgroundColor="{DynamicResource BackgroundColor}">
+        <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18n:Text views.timesummary.selectdate}" FontSize="16" FontAttributes="Bold"/>
+        <Frame Padding="0" HasShadow="False" CornerRadius="6" BackgroundColor="Transparent" BorderColor="Transparent" Margin="0, 10, 0, 0">
+            <StackLayout>
+                <Grid ColumnDefinitions="*,100" RowDefinitions="50">
+                    <Picker TextColor="{DynamicResource PrimaryTextColor}" Title="{Binding CurrentMonth.Value}" SelectedItem="{Binding CurrentMonth}" ItemsSource="{Binding Months}" ItemDisplayBinding="{Binding Value}" FontSize="Body" FontAttributes="Italic" xct:CornerRadiusEffect.CornerRadius="5" />
+                    <Picker TextColor="{DynamicResource PrimaryTextColor}" Title="{Binding CurrentYear}" SelectedItem="{Binding CurrentYear}" ItemsSource="{Binding Years}" ItemDisplayBinding="{Binding}" FontSize="Body" FontAttributes="Italic" xct:CornerRadiusEffect.CornerRadius="5" Grid.Column="1"/>
+                </Grid>
+                <Button HorizontalOptions="FillAndExpand" Padding="10, 5" Text="{i18n:Text views.timesummary.search}" TextColor="{DynamicResource SecondaryTextColor}" BackgroundColor="Transparent" BorderColor="{DynamicResource SecondaryTextColor}" CornerRadius="6" BorderWidth="1" TextTransform="None" Margin="0,10" Command="{Binding GetSpecificCommand}"/>
+            </StackLayout>
+        </Frame>
+        <Grid>
+            <Frame HasShadow="False" Padding="10" CornerRadius="6" IsVisible="True" BorderColor="{DynamicResource SecondaryTextColor}" BackgroundColor="{DynamicResource SurfaceColor}">
+                <CollectionView ItemsSource="{Binding History}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame HasShadow="False" Padding="10" BackgroundColor="{DynamicResource SurfaceColor}">
+                                <FlexLayout JustifyContent="SpaceBetween">
+                                    <Label Text="{Binding date, Converter={x:StaticResource dateTimeConverter}}" TextColor="{DynamicResource PrimaryTextColor}"/>
+                                    <Label Text="{Binding tracked, Converter={StaticResource timeToString}, ConverterParameter=false}" TextColor="{DynamicResource PrimaryTextColor}" FontAttributes="Bold"/>
+                                </FlexLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="*,2" RowSpacing="1">
+                            <Label Text="{i18n:Text views.timesummary.date}" FontAttributes="Bold" Padding="10,0" TextColor="{DynamicResource PrimaryTextColor}"/>
+                            <FlexLayout Grid.Column="1" JustifyContent="End" Padding="10,0">
+                                <Label Text="{i18n:Text views.timesummary.time}" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}"/>
+                                <Label Text="(hh:mm)" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}"/>
+                            </FlexLayout>
+                            <Rectangle Grid.Row="1" Grid.ColumnSpan="2" Fill="{DynamicResource SecondaryTextColor}"/>
+                        </Grid>
+                    </CollectionView.Header>
+                    <CollectionView.Footer>
+                        <Grid RowDefinitions="2,*" RowSpacing="1">
+                            <Rectangle Grid.Row="0" Fill="{DynamicResource SecondaryTextColor}"/>
+                            <Label Padding="10" Grid.Row="1" HorizontalOptions="End" HorizontalTextAlignment="End" Text="{Binding TotalSum}" TextColor="{DynamicResource PrimaryTextColor}" FontAttributes="Bold"/>
+
+                        </Grid>
+                    </CollectionView.Footer>
+                    <CollectionView.EmptyView>
+                        <StackLayout HorizontalOptions="Center" Padding="50">
+                            <Label Text="{i18n:Text views.timesummary.empty}" HorizontalOptions="Center" TextColor="{DynamicResource PrimaryTextColor}"/>
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </Frame>
+            <Frame HasShadow="{OnPlatform iOS=false, Default=true}" Padding="10" CornerRadius="10" IsVisible="{Binding IsBusy}" BackgroundColor="{DynamicResource SurfaceColor}">
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <ActivityIndicator IsRunning="True"  Color="{DynamicResource PrimaryTextColor}"/>
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </StackLayout>
+  
+</ContentPage>

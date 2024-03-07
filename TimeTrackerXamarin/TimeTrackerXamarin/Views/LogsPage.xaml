@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:i18N="clr-namespace:TimeTrackerXamarin.i18n;assembly=TimeTrackerXamarin"
+             Title="Logs"
+             x:Class="TimeTrackerXamarin.Views.LogsPage">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Fill" Padding="10" BackgroundColor="#191919">
+            <Button Text="Database viewer" Command="{prism:NavigateTo DebugPage}"></Button>
+            <Picker TitleColor="#606060" TextColor="WhiteSmoke" ItemsSource="{Binding LogDates}" SelectedItem="{Binding SelectedDate, Mode=TwoWay}" ItemDisplayBinding="{Binding ., StringFormat='{0:dd.MM.yyyy}'}" Title="Date"/>
+            <Frame Padding="10" BackgroundColor="#303030" BorderColor="#D0D0D0">
+                <ScrollView Orientation="Vertical">
+                    <StackLayout BindableLayout.ItemsSource="{Binding Logs}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Label TextColor="{Binding Type, Converter={StaticResource logToColorConverter}}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontAttributes="Bold" Text="["></Span>
+                                            <Span FontAttributes="Bold"
+                                                  Text="{Binding Date, StringFormat='{0:hh:mm:ss}'}">
+                                            </Span>
+                                            <Span FontAttributes="Bold" Text="] ["></Span>
+                                            <Span FontAttributes="Bold" Text="{Binding Type}"></Span>
+                                            <Span FontAttributes="Bold" Text="] "></Span>
+                                            <Span Text="{Binding Message}"></Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                </ScrollView>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

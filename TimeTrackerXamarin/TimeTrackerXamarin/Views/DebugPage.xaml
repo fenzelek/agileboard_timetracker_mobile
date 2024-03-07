@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:i18N="clr-namespace:TimeTrackerXamarin.i18n;assembly=TimeTrackerXamarin"
+             Title="Debug"
+             x:Class="TimeTrackerXamarin.Views.DebugPage">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center" VerticalOptions="FillAndExpand" Padding="10" BackgroundColor="#191919">
+            <Picker x:Name="TablePicker" Title="Select table" ItemsSource="{Binding TableNames}"
+                    SelectedIndex="{Binding SelectedIndex}" TextColor="WhiteSmoke" TitleColor="#D0D0D0">
+            </Picker>
+            <CollectionView VerticalScrollBarVisibility="Always" VerticalOptions="FillAndExpand" ItemsSource="{Binding SelectedTable}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="5, 10, 5, 0" BackgroundColor="#303030">
+                            <StackLayout BindableLayout.ItemsSource="{Binding .}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="80, *, 250" BackgroundColor="#303030">
+                                            <Label TextColor="WhiteSmoke" Grid.Column="0" FontAttributes="Bold" Text="{Binding Key}"></Label>
+                                            <Label TextColor="WhiteSmoke" Grid.Column="2" Text="{Binding Value}"></Label>
+                                        </Grid>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

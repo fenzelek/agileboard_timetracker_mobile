@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:i18n="clr-namespace:TimeTrackerXamarin.i18n"
+             BackgroundColor="{DynamicResource BackgroundColor}"
+             x:Class="TimeTrackerXamarin.Views.PermissionView">
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
+        <Frame CornerRadius="75" 
+           HeightRequest="50"
+           WidthRequest="50" Padding="50" BackgroundColor="{DynamicResource AppColor}" HorizontalOptions="Center">
+            <Image Aspect="Fill" >
+                <Image.Source>
+                    <FontImageSource Glyph="&#xf5a0;" FontFamily="FAsolid" Size="50" Color="White"/>
+                </Image.Source>
+            </Image>
+        </Frame>
+
+        <Label 
+            Text="{i18n:Text views.permissionview.message}" 
+            FontSize="16" 
+            Margin="30,10" 
+            HorizontalTextAlignment="Center"
+            FontAttributes="Bold" 
+            TextColor="{DynamicResource PrimaryTextColor}"
+            />
+        <Label 
+            Text="{i18n:Text views.permissionview.exmessage}"
+            FontSize="14"
+            HorizontalTextAlignment="Center"
+            FontAttributes="Bold"
+            TextColor="Red"
+            />
+        <Button Margin="0,50,0,0" TextColor="{DynamicResource AppColorText}" Text="{i18n:Text views.permissionview.button}" CornerRadius="15" Padding="20" BackgroundColor="{DynamicResource MainBlue}" HorizontalOptions="Center" TextTransform="None" Command="{Binding GetPermissionCommand}"/>
+        <Label Text="{i18n:Text views.permissionview.help}" FontAttributes="Italic" FontSize="12" HorizontalTextAlignment="Center" Margin="50,0"/>
+    </StackLayout>
+  
+</ContentPage>

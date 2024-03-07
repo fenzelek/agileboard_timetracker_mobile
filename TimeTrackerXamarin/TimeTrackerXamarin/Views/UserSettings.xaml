@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:i18n="clr-namespace:TimeTrackerXamarin.i18n"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="TimeTrackerXamarin.Views.UserSettings"
+             Title="{i18n:Text views.usersettings.title}"
+             BackgroundColor="{DynamicResource BackgroundColor}">
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" x:Name="SettingsStack"
+                 Margin="0, 30, 0, 0">
+        <Label FontSize="16" Text="{i18n:Text views.usersettings.account}" FontAttributes="Bold"
+               TextColor="{DynamicResource PrimaryTextColor}" Margin="10, 0, 0, 0" />
+        <Frame BorderColor="{DynamicResource SecondaryTextColor}" HasShadow="False" Margin="10" Padding="15"
+               BackgroundColor="{DynamicResource SurfaceColor}" CornerRadius="6">
+            <Grid>
+                <Image Source="{Binding AvatarUrl}" WidthRequest="75" HeightRequest="75"
+                       VerticalOptions="Start" HorizontalOptions="End" xct:CornerRadiusEffect.CornerRadius="100"
+                       Aspect="Fill" />
+                <StackLayout Spacing="1" VerticalOptions="Center">
+                    <FlexLayout>
+                        <Label Text="{i18n:Text views.usersettings.name}" FontAttributes="Bold"
+                               TextColor="{DynamicResource PrimaryTextColor}" />
+                        <Label Margin="3, 0, 0, 0" Text="{Binding CurrentUser.first_name}"
+                               TextColor="{DynamicResource PrimaryTextColor}" />
+                    </FlexLayout>
+                    <FlexLayout>
+                        <Label Text="{i18n:Text views.usersettings.surname}" FontAttributes="Bold"
+                               TextColor="{DynamicResource PrimaryTextColor}" />
+                        <Label Margin="3, 0, 0, 0" Text="{Binding CurrentUser.last_name}"
+                               TextColor="{DynamicResource PrimaryTextColor}" />
+                    </FlexLayout>
+                    <FlexLayout>
+                        <Label Text="{i18n:Text views.usersettings.email}" FontAttributes="Bold"
+                               TextColor="{DynamicResource PrimaryTextColor}" />
+                        <Grid ColumnDefinitions="170">
+                            <Label IsVisible="{Binding IsMailDotted}" LineBreakMode="TailTruncation" MaxLines="1" Margin="3, 0, 0, 0" Text="{Binding CurrentUser.email}"
+                                   TextColor="{DynamicResource PrimaryTextColor}" />
+                            <ScrollView IsVisible="{Binding IsMailDotted, Converter={StaticResource reverseConverter}}" Orientation="Horizontal">
+                                <Label Margin="3, 0, 0, 0" Text="{Binding CurrentUser.email}"
+                                       TextColor="{DynamicResource PrimaryTextColor}" />
+                            </ScrollView>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding MailDottedCommand}"></TapGestureRecognizer>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </FlexLayout>
+                </StackLayout>
+            </Grid>
+        </Frame>
+        <Label FontSize="16" TextColor="{DynamicResource PrimaryTextColor}"
+               Text="{i18n:Text views.usersettings.settings}" FontAttributes="Bold" Margin="10, 20, 0, 0" />
+        <Frame BorderColor="{DynamicResource SecondaryTextColor}" HasShadow="False" Margin="10" Padding="15"
+               BackgroundColor="{DynamicResource SurfaceColor}" CornerRadius="6">
+            <StackLayout Spacing="15">
+                <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center">
+                    <Label TextColor="{DynamicResource PrimaryTextColor}"
+                           Text="{i18n:Text views.usersettings.language}" />
+                    <Picker Title="{Binding CurrentLanguage.Name}"
+                            ItemsSource="{Binding Languages}" SelectedItem="{Binding CurrentLanguage}" FontSize="15"
+                            WidthRequest="110" HorizontalTextAlignment="Center" ItemDisplayBinding="{Binding ., Converter={StaticResource languageFlagConverter}}"
+                            BackgroundColor="Transparent"
+                            TextColor="{DynamicResource SecondaryTextColor}" />
+                </FlexLayout>
+                <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center">
+                    <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding CurrentCompany}"
+                           FontAttributes="Bold" />
+                    <Button Padding="10,5" BackgroundColor="Transparent" CornerRadius="6"
+                            WidthRequest="110"
+                            BorderColor="{DynamicResource SecondaryTextColor}" BorderWidth="1"
+                            TextColor="{DynamicResource SecondaryTextColor}"
+                            Text="{i18n:Text views.usersettings.change}"
+                            TextTransform="None" Command="{Binding ChangeCompanyCommand}" />
+                </FlexLayout>
+
+                <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center">
+                    <Label TextColor="{DynamicResource PrimaryTextColor}"
+                           Text="{i18n:Text views.usersettings.cleandata}" />
+                    <Button Padding="10,5" Text="{i18n:Text views.usersettings.clean}"
+                            WidthRequest="110"
+                            BackgroundColor="Transparent" CornerRadius="6"
+                            BorderColor="{DynamicResource SecondaryTextColor}" BorderWidth="1"
+                            TextColor="{DynamicResource SecondaryTextColor}"
+                            TextTransform="None" Command="{Binding ClearCacheCommand}" />
+                </FlexLayout>
+            </StackLayout>
+        </Frame>
+        <Button Padding="10,5" Text="{i18n:Text views.usersettings.logout}"
+                IsEnabled="{Binding IsBusy, Converter={StaticResource reverseConverter}}"
+                HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" CornerRadius="6"
+                BorderColor="{DynamicResource SecondaryTextColor}" BorderWidth="1"
+                TextColor="{DynamicResource SecondaryTextColor}" TextTransform="None"
+                Margin="10, 0, 10, 0"
+                Command="{Binding LogOutCommand}" />
+        <!-- Info in code behind if debug mode is on -->
+        <Label Text="{Binding Version}" 
+               HorizontalTextAlignment="Center"
+               Margin="0, 10, 0, 0"
+               TextColor="{DynamicResource SecondaryTextColor}" 
+               FontSize="12" 
+               VerticalOptions="EndAndExpand" 
+               xct:TouchEffect.LongPressCommand="{prism:NavigateTo LogsPage}" 
+               xct:TouchEffect.LongPressDuration="5000" />
+    </StackLayout>
+</ContentPage>

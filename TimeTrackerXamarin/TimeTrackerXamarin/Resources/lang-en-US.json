@@ -1,0 +1,159 @@
+{
+    "views": {
+        "companylist": {
+            "title": "Companies list",
+            "empty-view": "You are not assigned to any company.",
+            "select": "Select company:",
+            "task": {
+                "found": "Previously started task has been found",
+                "continue": "Continue",
+                "stop": "Stop",
+                "discard": "Discard",
+                "sprint": "Sprint: ",
+                "title": "Number: ",
+                "name": "Name: "
+            }
+        },
+        "loginpage": {
+            "email": "E-mail",
+            "password": "Password",
+            "forgot-password": "Forgot password",
+            "login": "Login",
+            "no-account": "Don't have an account?",
+            "create-account": "Create one",
+            "checking-login": "Checking login...",
+            "browser-error": "There was an external error with browser.",
+            "cancel": "Cancel",
+            "welcome": {
+                "first": "Welcome, nice to see you!",
+                "online": "Welcome back, nice to see you",
+                "offline": "Welcome back offline."
+            }
+        },
+        "projectslist": {
+            "title": "Projects list",
+            "no-assigned": "No assigned projects",
+            "current-task": "Tracking task:",
+            "total-time":  "Total time:",
+            "select-company-again": "Select company again.",
+            "history": "History",
+            "new-task": "New task",
+            "exit-confirm": {
+                "yes": "Yes",
+                "no": "No",
+                "message": "Are you sure to exit?"
+            }
+        },
+        "taskcreate": {
+            "title": "New task",
+            "sprinttitle": "Select...",
+            "sprint": "Sprint",
+            "name": "Name",
+            "submit": "Submit",
+            "alert": {
+                "offline": "You need to be connected to the internet to create a new task.",
+                "created": "Task created.",
+                "noprojectid": "Project ID not found."
+            }
+        },
+        "tasklist": {
+            "title": "Task list",
+            "trackactual": "Tracking task:",
+            "total-time": "Total time:",
+            "listfull": "No more task.",
+            "listempty": "No tasks",
+            "assigned": "Assigned",
+            "search": "Search",
+            "holdtip": "Hold task to view additional information",
+            "trackhistory": "History",
+            "createtask": "New task",
+            "detailstitle": "Task details",
+            "task": "Task",
+            "sprint": "Sprint",
+            "assignedto": "Assigned to",
+            "reporter": "Reporter",
+            "estimation": "Estimation",
+            "mytime": "My time",
+            "alltime": "All time",
+            "description": "Description",
+            "unassigneduser": "Unassigned",
+            "alert": {
+                "unexpected": "Sorry, something went wrong.",
+                "unselectedtask": "You have to select task first."
+            }
+
+        },
+        "timesummary": {
+            "title": "Time summary",
+            "selectdate": "Select date",
+            "search": "Search",
+            "empty": "No data",
+            "date": "Date",
+            "time": "Time"
+        },
+        "usersettings": {
+            "title": "Preferences",
+            "account": "Account details",
+            "email": "E-mail: ",
+            "name": "Name: ",
+            "surname": "Surname: ",
+            "logout": "Log out",
+            "settings": "Settings",
+            "language": "Language",
+            "change": "Change",
+            "cleandata": "Wipe offline data",
+            "clean": "Wipe",
+            "none": "None",
+            "company-change": {
+                "cancel": "Cancel",
+                "confirm": "Change and wipe",
+                "message": "Changing company will wipe all local data.",
+                "title": "Are you sure?"
+            },
+            "wipe": {
+                "cancel": "Cancel",
+                "confirm": "Wipe",
+                "message": "This action will wipe all local data.",
+                "title": "Are you sure?"
+            },
+            "alert": {
+                "okclear": "Cache cleared.",
+                "errclear": "Can't clear the cache.",
+                "languagechanged": "Language has been changed."
+            }
+        },
+        "permissionview": {
+            "message": "TimeTracker collects location data to enable tracking of workers localization (we send location every 5 min) even when the app is closed or not in use",
+            "exmessage":  "You must click 'Always allow'",
+            "button": "Give permission",
+            "alert": "You have to click always allow.",
+            "help": "If the permission window is not displayed, you need to enter the settings"
+        }
+    },
+    "api": {
+        "general": {
+            "validation_failed": "You have entered invalid data.",
+            "request_rate_exceeded": "You have tried this too often. Wait a minute and try again.",
+            "no_action_permission": "You do not have permission to perform this action.",
+            "no_resource_found": "You have provided incorrect data",
+            "api_error": "An unexpected error occurred. Please try again in a moment.",
+            "invalid_action_or_method": "An unexpected error occurred. Please try again in a moment.",
+            "database_error": "An unexpected error occurred. Please try again in a moment.",
+            "guest_not_allowed": "The given email has been assigned to the guest account. You can not perform this action using this email."
+        },
+        "auth": {
+            "invalid_login_data": "You have entered invalid data.",
+            "empty_data": "Email and password must be set.",
+            "invalid_token": "Authorization token is invalid."
+        },
+        "cancelledframe": "Rejected frames of time"
+    },
+    "validation": {
+        "emailorpassword": "E-mail and password must be set.",
+        "tokennotfound": "Token not found"
+    },
+    "internal-error": "Internal application error has occured.",
+    "reminder-notification": "Hi! Do you remember to turn off tracking?",
+    "ios-app-terminated": "Hey! Application should not be terminated while tracking is enabled!",
+    "sync": "Synchronizing data..."
+}

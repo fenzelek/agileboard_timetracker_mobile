@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                        xmlns:prism="http://prismlibrary.com" 
+                        xmlns:t="clr-namespace:TimeTrackerXamarin.Services"
+                        x:Class="TimeTrackerXamarin.App">
+  <Application.Resources>
+      <!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <Color x:Key="MainBlue">
+                #42b0a4
+            </Color>
+            <t:DateConverter x:Key="timeToString"></t:DateConverter>
+            <t:UserNameConverter x:Key="userFullName"></t:UserNameConverter>
+            <t:ReverseConverter x:Key="reverseConverter"></t:ReverseConverter>
+            <t:DateTimeConverter x:Key="dateTimeConverter"></t:DateTimeConverter>
+            <t:LanguageFlagConverter x:Key="languageFlagConverter"></t:LanguageFlagConverter>
+            <t:LogToColorConverter x:Key="logToColorConverter"></t:LogToColorConverter>
+        </ResourceDictionary>
+  </Application.Resources>
+</prism:PrismApplication>

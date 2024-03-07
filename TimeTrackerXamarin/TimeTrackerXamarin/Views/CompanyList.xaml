@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:i18N="clr-namespace:TimeTrackerXamarin.i18n;assembly=TimeTrackerXamarin"
+             x:Name="CompanyListPage"
+             x:Class="TimeTrackerXamarin.Views.CompanyList"
+             NavigationPage.HasNavigationBar="{Binding IsVisibleContinue,Converter={x:StaticResource reverseConverter}}"
+             BackgroundColor="{DynamicResource BackgroundColor}"
+             Title="{i18N:Text views.companylist.title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{prism:NavigateTo 'UserSettings'}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource Glyph="&#xf013;" Size="20" FontFamily="FAsolid" Color="White"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <Grid BackgroundColor="{DynamicResource BackgroundColor}">
+        <StackLayout Padding="20">
+            <CollectionView SelectionMode="None" ItemsSource="{Binding CompanyList}" EmptyView="{i18N:Text views.companylist.empty-view}" ItemsUpdatingScrollMode="KeepScrollOffset" RemainingItemsThreshold="5">
+                <CollectionView.Header>
+                    <StackLayout Padding="{OnPlatform iOS='0,20',Default=0}">
+                        <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18N:Text views.companylist.select}" FontSize="20"/>
+                    </StackLayout>
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Span="2" Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame HasShadow="{OnPlatform iOS=false,Default=true}" Margin="10" HeightRequest="100" BackgroundColor="{DynamicResource AppColor}" CornerRadius="10" xct:TouchEffect.NativeAnimation="True">
+                            <StackLayout>
+                                <Image>
+                                    <Image.Source>
+                                        <FontImageSource Glyph="&#xf1ad;" FontFamily="FAsolid" Color="{DynamicResource AppColorText}" Size="75"/>
+                                    </Image.Source>
+                                </Image>
+                                <Label HorizontalOptions="CenterAndExpand" Text="{Binding name}" VerticalOptions="CenterAndExpand" TextColor="{DynamicResource AppColorText}"/>
+                            </StackLayout>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference CompanyListPage}, Path=BindingContext.GoToProjectListCommand}" CommandParameter="{Binding id,StringFormat='{0}'}">
+                                </TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+        <Grid BackgroundColor="{StaticResource MainBlue}" VerticalOptions="FillAndExpand" HorizontalOptions="CenterAndExpand" Padding="0" IsVisible="{Binding IsVisibleContinue}">
+            <StackLayout Spacing="0" VerticalOptions="Center" Padding="10">
+                <Frame BorderColor="DarkGray" HasShadow="{OnPlatform Default=true,iOS=false}" CornerRadius="0" Padding="20" BackgroundColor="{DynamicResource SurfaceHeaderColor}">
+                    <Label Text="{i18N:Text views.companylist.task.found}" FontSize="20" FontAttributes="Bold" TextColor="{DynamicResource PrimaryTextColor}"/>
+                </Frame>
+                <Frame BorderColor="DarkGray" HasShadow="{OnPlatform Default=true,iOS=false}" CornerRadius="0" Padding="20" BackgroundColor="{DynamicResource SurfaceColor}">
+                    <StackLayout>
+                        <Grid RowDefinitions="*,*,*">
+                            <FlexLayout AlignItems="Center">
+                                <Label Text="{i18N:Text views.companylist.task.sprint}" TextColor="{DynamicResource SecondaryTextColor}"/>
+                                <Label TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding CurrTicket.sprint_name}" FontAttributes="Bold" MaxLines="1" LineBreakMode="TailTruncation"/>
+                            </FlexLayout>
+                            <FlexLayout Grid.Row="1" AlignItems="Center">
+                                <Label Text="{i18N:Text views.companylist.task.title}" TextColor="{DynamicResource SecondaryTextColor}"/>
+                                <Label TextColor="{DynamicResource SecondaryTextColor}" Text="{Binding CurrTicket.title}" FontAttributes="Bold" />
+                            </FlexLayout>
+                            <Grid Grid.Row="2" ColumnDefinitions="AUTO, *" VerticalOptions="Center">
+                                <Label Grid.Column="0" Text="{i18N:Text views.companylist.task.name}" TextColor="{DynamicResource SecondaryTextColor}"/>
+                                <Label Grid.Column="1" Text="{Binding CurrTicket.name, StringFormat='{0}'}" TextColor="{DynamicResource SecondaryTextColor}" MaxLines="1" LineBreakMode="TailTruncation" FontAttributes="Bold"/>
+                            </Grid>
+                        </Grid>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="0,10,0,0" Spacing="0">
+                            <Label Text="{Binding TotalTime,Converter={StaticResource timeToString}, ConverterParameter=false}" FontSize="24" Padding="5" xct:CornerRadiusEffect.CornerRadius="10" TextColor="{DynamicResource SecondaryTextColor}"/>
+                            <Label Text="{Binding LoggedTime,Converter={StaticResource timeToString}, StringFormat='+{0}'}" FontSize="16" Padding="5" xct:CornerRadiusEffect.CornerRadius="10" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="{DynamicResource AppColorText}" BackgroundColor="{StaticResource MainBlue}"/>
+                        </StackLayout>
+                        <FlexLayout VerticalOptions="End" JustifyContent="SpaceBetween" BackgroundColor="{DynamicResource SurfaceColor}" Padding="20">
+                            <Button Padding="{OnPlatform iOS='10,10'}" CornerRadius="5" Text="{i18N:Text views.companylist.task.continue}" BackgroundColor="LimeGreen" TextColor="{DynamicResource AppColorText}" TextTransform="None" Command="{Binding ContinueCommand}"/>
+                            <Button Padding="{OnPlatform iOS='10,10'}" CornerRadius="5" Text="{i18N:Text views.companylist.task.stop}" BackgroundColor="Orange" TextColor="{DynamicResource AppColorText}" TextTransform="None" Command="{Binding StopCommand}"/>
+                            <Button Padding="{OnPlatform iOS='10,10'}" CornerRadius="5" Text="{i18N:Text views.companylist.task.discard}" BackgroundColor="Red" TextColor="{DynamicResource AppColorText}" TextTransform="None" Command="{Binding DeleteCommand}"/>
+                        </FlexLayout>
+                    </StackLayout>
+                </Frame>
+                
+            </StackLayout>
+        </Grid>
+        <Grid BackgroundColor="{DynamicResource BackgroundColor}" IsVisible="{Binding IsBusy}">
+            <Frame HorizontalOptions="Center" VerticalOptions="Center" IsVisible="{Binding IsBusy}" CornerRadius="100" BackgroundColor="{DynamicResource BackgroundColor}"  Padding="5" WidthRequest="50" HeightRequest="50">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{StaticResource MainBlue}"/>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

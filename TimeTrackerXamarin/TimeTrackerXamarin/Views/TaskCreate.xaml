@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:i18n="clr-namespace:TimeTrackerXamarin.i18n"
+             xmlns:effects="clr-namespace:TimeTrackerXamarin.Effects;assembly=TimeTrackerXamarin"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="TimeTrackerXamarin.Views.TaskCreate"
+             Title="{i18n:Text views.taskcreate.title}">
+    <StackLayout Padding="20" BackgroundColor="{DynamicResource BackgroundColor}">
+        <Grid ColumnDefinitions="90,*" IsVisible="{Binding IsSpringSelectionVisible}">
+            <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18n:Text views.taskcreate.sprint}"
+                   FontAttributes="Bold" VerticalOptions="Center" />
+            <Frame Grid.Column="1" HasShadow="False" BorderColor="{DynamicResource SecondaryTextColor}"
+                   BackgroundColor="Transparent" CornerRadius="6" Padding="10, 5">
+                <Picker TextColor="{DynamicResource PrimaryTextColor}" Title="{i18n:Text views.taskcreate.sprinttitle}"
+                        ItemsSource="{Binding Sprints}" SelectedItem="{Binding SelectedSprint}" Grid.Column="1"
+                        VerticalOptions="Center" ItemDisplayBinding="{Binding name}">
+                    <Picker.Effects>
+                        <effects:PlainEntry />
+                    </Picker.Effects>
+                </Picker>
+            </Frame>
+        </Grid>
+        <Grid Margin="0, 10, 0 ,0" ColumnDefinitions="90,*" IsVisible="{Binding IsBusy, Converter={StaticResource reverseConverter}}">
+            <Label TextColor="{DynamicResource PrimaryTextColor}" Text="{i18n:Text views.taskcreate.name}"
+                   FontAttributes="Bold" VerticalOptions="Center" />
+
+            <Frame Grid.Column="1" HasShadow="False" BorderColor="{DynamicResource SecondaryTextColor}"
+                   BackgroundColor="Transparent" CornerRadius="6" Padding="10, 5">
+                <Entry TextColor="{DynamicResource PrimaryTextColor}" Text="{Binding TaskName}"
+                       VerticalOptions="Center">
+                    <Entry.Effects>
+                        <effects:PlainEntry />
+                    </Entry.Effects>
+                </Entry>
+            </Frame>
+        </Grid>
+        <Button IsVisible="{Binding IsBusy, Converter={StaticResource reverseConverter}}"
+                HorizontalOptions="FillAndExpand" Padding="10, 5" Text="{i18n:Text views.taskcreate.submit}"
+                TextColor="{DynamicResource SecondaryTextColor}" BackgroundColor="Transparent"
+                BorderColor="{DynamicResource SecondaryTextColor}" CornerRadius="6" BorderWidth="1"
+                TextTransform="None" Margin="0,40" Command="{Binding SubmitTaskCommand}" />
+        <Frame IsVisible="{Binding IsBusy}" CornerRadius="100" BackgroundColor="{DynamicResource BackgroundColor}"
+               HorizontalOptions="Center" VerticalOptions="Center" Padding="5" WidthRequest="50" HeightRequest="50">
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               Color="{StaticResource MainBlue}" />
+        </Frame>
+    </StackLayout>
+</ContentPage>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="TimeTrackerXamarin.Themes.Dark">
+    <Color x:Key="BackgroundColor">#191919</Color>
+    <Color x:Key="BarBackgroundColor">Black</Color>
+    <Color x:Key="BarTextColor">WhiteSmoke</Color>
+    <Color x:Key="SurfaceColor">#303030</Color>
+    <Color x:Key="SurfaceHeaderColor">#292929</Color>
+    <Color x:Key="ItemListColor">#303030</Color>
+    <Color x:Key="SelectedColor">#D0D0D0</Color>
+    <Color x:Key="PrimaryTextColor">WhiteSmoke</Color>
+    <Color x:Key="SecondaryTextColor">#D0D0D0</Color>
+    <Color x:Key="AppColor">#42b0a4</Color>
+    <Color x:Key="AppColorText">White</Color>
+    <Color x:Key="LogoColor">White</Color>
+    <Color x:Key="InputBackgroundColor">#262626</Color>
+    <Color x:Key="InputTextColor">WhiteSmoke</Color>
+    <Color x:Key="InputPlaceholderColor">#303030</Color>
+    <Color x:Key="TransparentBackground">#dd191919</Color>
+</ResourceDictionary>
